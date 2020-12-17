@@ -4,9 +4,9 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     // This component could be a function component, we do here class component just to test this lifecycle hooks.
-    componentDidUpdate() {
-        console.log('[Order Summary] WiillUpdate'); //this will run whenever we re-render our project EX: when we add any Ingredients
-    }
+    // componentDidUpdate() {
+    //     console.log('[Order Summary] WiillUpdate'); //this will run whenever we re-render our project EX: when we add any Ingredients
+    // }
 
     render() {
         const ingredientSummary = Object.keys(this.props.ingredients)
