@@ -19,9 +19,7 @@ const rootReducer = combineReducers({
 })
 
 // store, middleware, redux-thunk
-const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk)
-));
+const store = createStore(rootReducer, composeEnhancers( applyMiddleware(thunk) ));
 
 const app = (
     <Provider store={store}>

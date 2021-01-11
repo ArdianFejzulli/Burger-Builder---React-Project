@@ -126,7 +126,6 @@ class ContactData extends Component {
         if(rules.maxLength) {
             isValid = value.length <= rules.maxLength && isValid
         }
-
         return isValid;
     }
 
@@ -146,7 +145,6 @@ class ContactData extends Component {
         for(let inputIdentifier in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
-
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
     }
 

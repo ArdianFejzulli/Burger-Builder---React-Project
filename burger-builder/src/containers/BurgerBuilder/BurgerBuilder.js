@@ -28,7 +28,6 @@ class BurgerBuilder extends Component {
             .reduce((sum, el) => {
                 return sum + el;
             }, 0);
-
         return sum > 0;
     }
 
@@ -46,9 +45,7 @@ class BurgerBuilder extends Component {
     }
 
     render() {
-        const disabledInfo = {
-            ...this.props.ings
-        };
+        const disabledInfo = { ...this.props.ings };
         for(let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
@@ -74,7 +71,7 @@ class BurgerBuilder extends Component {
                 price={this.props.price}
                 purchaseCanceled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler}
-            />;
+            />
         }
         return(
             <Aux>
