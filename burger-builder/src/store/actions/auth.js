@@ -9,10 +9,11 @@ export const authStart = () => {
 }
 
 //sync
-export const authSuccess = (authData) => {
+export const authSuccess = (token, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
-        authData: authData
+        idToken: token,
+        userId: userId
     }
 }
 
@@ -24,8 +25,24 @@ export const authFail = (error) => {
     }
 }
 
+//sync
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT,
+    }
+}
+
 //Async
-export const auth = (email, password, isSignUp) => {
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime * 1000);
+    };
+}
+
+//Async
+export const auth = (email, password, isSignup, ) => {
     return dispatch => {
         dispatch(authStart());
 
@@ -36,18 +53,18 @@ export const auth = (email, password, isSignUp) => {
         }
 
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBbUNvR3D-mRartA7QuIo-VVb44ekh2sXE';
-        if(!isSignUp) {
+        if(!isSignup) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBbUNvR3D-mRartA7QuIo-VVb44ekh2sXE';
         }
         
         axios.post(url, authData)
             .then(response => {
                 console.log(response);
-                dispatch(authSuccess(response.data));
+                dispatch(authSuccess(response.data.idToken, response.data.localId));
+                dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(err => {
-                console.log(err);
-                dispatch(authFail(err));
+                dispatch(authFail(err.response.data.error));
             })
     }
 }
