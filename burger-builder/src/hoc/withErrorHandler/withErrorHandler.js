@@ -20,7 +20,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
         
         // this will be executed when this component isn't required anymore
         componentWillUnmount() {
-            //console.log('Will Unmount', this.reqInterceptor, this.resInterceptor);
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.response.eject(this.resInterceptor);
         }
