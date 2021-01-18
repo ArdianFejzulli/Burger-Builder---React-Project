@@ -25,15 +25,22 @@ export const authFail = (error) => {
     }
 }
 
-//sync
+//Async now managed from REDUX SAGA
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');  
-    localStorage.removeItem('userId');  
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('expirationDate');  
+    // localStorage.removeItem('userId');  
     return {
-        type: actionTypes.AUTH_LOGOUT,
+        type: actionTypes.AUTH_INITIATE_LOGOUT,
     }
 }
+//Async WITH SAGA now is sync
+export const logoutSaga = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    }
+}
+
 
 //Async
 export const checkAuthTimeout = (expirationTime) => {

@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios-orders';
 
 export const addIngredient = (name) => {
     return {
@@ -30,15 +29,9 @@ export const fetchIngredientsFailed = () => {
     }
 }
 
-// ASYNCHRONOUS
+//Async WITH SAGA now is sync
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get('https://react-js-burger-builder-b16e7-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json')
-        .then(response => {
-            dispatch(setIngredients(response.data));
-        })
-        .catch(error => {
-            dispatch(fetchIngredientsFailed());
-        });
+    return {
+        type: actionTypes.INIT_INGREDIENTS
     }
 }
