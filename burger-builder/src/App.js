@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Layout from './containers/Layout/Layout';
@@ -9,42 +9,38 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
-class App extends Component {
+const app = props => {
+  const { onTryAutoSignup } = props; // optiminze way, to re-render useEffect only when this dependencies is call.
 
-  componentDidMount() {
-    this.props.onTryAutoSignup();
-  }
+  useEffect(() => {
+    onTryAutoSignup();
+  }, [onTryAutoSignup]);
 
-  render() {
+  let routes = (
+    <Switch>
+      <Route path="/auth" component={Auth} />
+      <Route path="/" exact component={BurgerBuilder} />
+      <Redirect to="/" />
+    </Switch>
+  );
 
-    let routes = (
+  if(props.isAuthenticated) {
+    routes = (
       <Switch>
-        <Route path="/auth" component={Auth} />
-        <Route path="/" exact component={BurgerBuilder} />
-        <Redirect to="/" />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/orders" component={Orders} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/" exact component={BurgerBuilder} />
       </Switch>
     );
-
-    if(this.props.isAuthenticated) {
-      routes = (
-        <Switch>
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/auth" component={Auth} />
-            <Route path="/" exact component={BurgerBuilder} />
-        </Switch>
-      );
-    }
-
-    return (
-      <div>
-        <Layout>
-          {routes}
-        </Layout>
-      </div>
-    );
   }
+
+  return (
+    <div>
+      <Layout> {routes} </Layout>
+    </div>
+  );
 }
 
 const mapStateToProps = state => {
@@ -59,4 +55,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(
+  connect(
+    mapStateToProps, 
+    mapDispatchToProps
+  ) (app)
+);
